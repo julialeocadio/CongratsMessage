@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parabéns pela Formatura!</title>
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Canvas Confetti para a chuva de confetes e estrelas -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- html2canvas para fazer o download do diploma em PNG -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Textura de pergaminho realista */
+        .pergaminho {
+            background-color: #f4edd2;
+            background-image: 
+                radial-gradient(circle at 50% 50%, transparent 60%, rgba(139,69,19,0.15) 100%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' fill='transparent'/%3E%3C/svg%3E");
+            box-shadow: inset 0 0 40px rgba(139,69,19,0.3), 0 10px 25px rgba(0,0,0,0.2);
+            border: 15px solid transparent;
+            border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Crect width='30' height='30' fill='none' stroke='%238b4513' stroke-width='4'/%3E%3C/svg%3E") 10 repeat;
+        }
+
+        /* Selo de cera com brilho */
+        .selo-cera {
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000);
+            box-shadow: 
+                inset 0 0 10px rgba(0,0,0,0.5),
+                2px 4px 8px rgba(0,0,0,0.4),
+                inset -3px -3px 8px rgba(255,255,255,0.2);
+            position: relative;
+        }
+        .selo-cera::after {
+            content: '';
+            position: absolute;
+            top: 15%; left: 15%; width: 30%; height: 30%;
+            background: rgba(255, 255, 255, 0.4);
+            filter: blur(2px);
+            border-radius: 50%;
+        }
+
+        /* Animação do Chapéu Voando */
+        @keyframes voar {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(720deg) scale(1.5); opacity: 0; }
+        }
+        .chapeu-animado {
+            animation: voar 4s ease-in-out forwards;
+        }
+        /* Ativa o efeito de perspectiva no container do diploma */
+        #conteudo-principal {
+        perspective: 1000px;
+        }
+
+        /* Suaviza o retorno do diploma para a posição original */
+        .pergaminho {
+        transition: transform 0.1s ease-out;
+        transform-style: preserve-3d;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden font-serif">
+
+    <!-- Música de Fundo-->
+    <audio id="musica" src="musica.mp3" loop></audio>
+
+    <!-- Botão de Interação Inicial (Navegadores exigem clique para tocar som) -->
+    <div id="overlay" class="fixed inset-0 bg-slate-950/90 z-50 flex flex-col items-center justify-center text-center p-6">
+        <h1 class="text-pink-400 text-3xl md:text-5xl font-bold mb-6">Uma surpresa especial espera por você... </h1>
+        <button onclick="iniciarCelebracao()" class="bg-pink-500 hover:bg-pink-600 text-slate-950 font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition cursor-pointer">
+            Abrir Surpresa ✨
+        </button>
+    </div>
+
+    <!-- Chapéu Voando -->
+    <div id="container-chapeu" class="fixed inset-0 pointer-events-none z-40 hidden"></div>
+
+    <!-- main -->
+    <main class="w-full max-w-4xl flex flex-col items-center opacity-0 transition-opacity duration-1000" id="conteudo-principal">
+        
+        <!-- Diploma-->
+        <div id="diploma" class="pergaminho w-full p-8 md:p-16 text-center text-amber-950 rounded-lg relative my-8">
+            
+            <!-- Detalhe do Topo -->
+            <div class="text-4xl md:text-6xl my-4">⚖️</div>
+            
+            <h1 class="text-3xl md:text-5xl font-bold tracking-wide uppercase mb-6 text-amber-900 border-b-2 border-amber-800/20 pb-4">
+                Diploma de Mérito Acadêmico
+            </h1>
+            
+            <p class="text-lg md:text-xl italic mb-8">Certificamos com imensa honra e orgulho que</p>
+            
+            <!-- Nome -->
+            <h2 class="text-3xl md:text-5xl font-bold my-6 font-mono text-stone-900 border-b border-stone-400 inline-block px-4">
+                [Nome da Sua Amiga]
+            </h2>
+            
+            <p class="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+                concluiu com êxito e brilhantismo os requisitos necessários e recebeu o título de
+                <span class="block text-2xl md:text-3xl font-bold text-amber-900 mt-2">Mestra em Direitos Humanos</span>
+            </p>
+            
+            <p class="text-sm md:text-md italic text-stone-700 mb-12">
+                "Por sua dedicação na defesa da dignidade, igualdade e justiça social."
+            </p>
+
+            <!-- Assinaturas e Selo -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mt-12 pt-8 border-t border-amber-800/10">
+
+                <!-- Selo de Cera Realista -->
+                <div class="selo-cera w-24 h-24 rounded-full flex items-center justify-center text-amber-200 text-3xl font-bold border-4 border-red-700/50 transform rotate-12 select-none">
+                    ⚖️
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="flex flex-wrap gap-4 justify-center mb-12">
+            <button onclick="soltarConfetes()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 px-6 rounded-lg shadow-md transition cursor-pointer">
+                🎉 Mais Confetes!
+            </button>
+            <button onclick="baixarDiploma()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition cursor-pointer flex items-center gap-2">
+                📷 Baixar Diploma (PNG)
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // Coloca a data atual formatada no diploma
+        document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR');
+
+        function iniciarCelebracao() {
+            // Esconde o overlay e mostra o conteúdo
+            document.getElementById('overlay').style.display = 'none';
+            const conteudo = document.getElementById('conteudo-principal');
+            conteudo.classList.remove('opacity-0');
+            
+            // Tenta dar play na música
+            const musica = document.getElementById('musica');
+            musica.play().catch(e => console.log("Áudio bloqueado pelo navegador até segunda interação."));
+
+            // Dispara os efeitos especiais
+            soltarConfetes();
+            animarChapeu();
+        }
+
+        // Função para os Confetes, Estrelas e Partículas (Canvas Confetti)
+        function soltarConfetes() {
+            // Confetes clássicos
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+
+            // Estrelas douradas espalhadas
+            setTimeout(() => {
+                confetti({
+                    particleCount: 50,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ffd700', '#ffa500', '#ffffff']
+                });
+                confetti({
+                    particleCount: 50,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ffd700', '#ffa500', '#ffffff']
+                });
+            }, 300);
+        }
+
+        // Função para fazer o Chapéu de Formatura voar pela tela
+        function animarChapeu() {
+            const container = document.getElementById('container-chapeu');
+            container.classList.remove('hidden');
+            container.innerHTML = ''; // Limpa se houver anterior
+
+            // Cria o elemento do chapéu (SVG ou Emoji grande)
+            const chapeu = document.createElement('div');
+            chapeu.innerHTML = '🎓';
+            chapeu.className = 'absolute text-7xl md:text-9xl chapeu-animado';
+            
+            // Posição horizontal aleatória no meio da tela
+            chapeu.style.left = Math.random() * 60 + 20 + '%'; 
+            
+            container.appendChild(chapeu);
+
+            // Esconde o container de novo após a animação sumir
+            setTimeout(() => {
+                container.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Função para baixar a div do diploma como imagem PNG
+        function baixarDiploma() {
+            const diplomaArea = document.getElementById('diploma');
+            
+            // Pequeno truque para garantir que bordas e sombras fiquem perfeitas no print
+            html2canvas(diplomaArea, {
+                scale: 2, // Aumenta a qualidade da imagem
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'diploma-mestrado-direitos-humanos.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+        const diploma = document.getElementById('diploma');
+        const container = document.getElementById('conteudo-principal');
+
+        // Detecta o movimento do mouse sobre a área do diploma
+        container.addEventListener('mousemove', (e) => {
+            const { offsetWidth: width, offsetHeight: height } = container;
+            const { offsetX: x, offsetY: y } = e;
+
+            // Calcula a rotação com base na posição do mouse (-0.5 a 0.5)
+            const rotaterX = ((y / height) - 0.5) * 30; // Máximo de 15 graus para cima/baixo
+            const rotaterY = ((x / width) - 0.5) * -30; // Máximo de 15 graus para os lados
+
+            // Aplica a rotação 3D e uma leve sombra dinâmica
+            diploma.style.transform = `rotateX(${rotaterX}deg) rotateY(${rotaterY}deg) scale(1.02)`;
+            diploma.style.boxShadow = `${-rotaterY}px ${rotaterX}px 30px rgba(0,0,0,0.3)`;
+        });
+
+        // Faz o diploma voltar ao normal quando o mouse sai de cima
+        container.addEventListener('mouseleave', () => {
+            diploma.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            diploma.style.boxShadow = 'inset 0 0 40px rgba(139,69,19,0.3), 0 10px 25px rgba(0,0,0,0.2)';
+        });
+    </script>
+</body>
+</html>
