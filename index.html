@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         /* Textura de pergaminho realista */
@@ -86,7 +87,6 @@
             <p class="text-sm md:text-md italic text-stone-700 mb-2">
                 "Por toda sua dedicação."
             </p>
-            
 
             <div class="flex flex-col md:flex-row justify-between items-center gap-8 mt-12 pt-8 border-t border-amber-800/10">
 
@@ -100,9 +100,6 @@
         <div class="flex flex-wrap gap-4 justify-center mb-12">
             <button onclick="soltarConfetes()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 px-6 rounded-lg shadow-md transition cursor-pointer">
                 🎉 Mais Confetes!
-            </button>
-            <button onclick="baixarDiploma()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition cursor-pointer flex items-center gap-2">
-                📷 Baixar Diploma (PNG)
             </button>
         </div>
     </main>
@@ -151,15 +148,6 @@
             setTimeout(() => { container.classList.add('hidden'); }, 4000);
         }
 
-        function baixarDiploma() {
-            const diplomaArea = document.getElementById('diploma');
-            html2canvas(diplomaArea, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'diploma-mestrado-direitos-humanos.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
-        }
     </script>
 </body>
 </html>
